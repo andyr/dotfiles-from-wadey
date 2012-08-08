@@ -1,17 +1,97 @@
-shell -/bin/zsh           # Use zsh 
+
+# Don't use zsh yet -- update this later
+#shell -/bin/zsh           # Use zsh
+
+# See http://home.insightbb.com/~bmsims1/Scripts/Screenrc.html
+# See also http://www.mattcutts.com/blog/screen-power-tips-screenrc/
+
+##    Explanation of hardstatus line    ##
+
+# Ignore the ' marks if you use these examples for yourself
+
+# Note that if you want to use the color brown under konsole
+# You actually use bright yellow (%{Y}).
+
+# Note the embeded space after the colon, I feel
+#  it just looks nicer with a blank between the
+#  text and console edge:
+#   '%{=b}%{G} Screen(s): '
+
+# This prints the window listing in blue:
+#   '%{b}%w'
+
+# This right-aligns what follows:
+#   '%='
+
+# This displays the time (hours and minutes) in 12hr format
+# and adds an AM/PM flag, in bold green:
+#   '%{G}%C%A'
+
+# This displays the day of the week:
+#   '%D'
+
+#This displays the date in Mon/day/year format:
+# and again I embeded a space to give me one space
+# between the text and console edge:
+#  '%M/%d/%Y '
+
+# The resulting command give you a status line that
+#  looks like this:
+#   | Screen(s): 0* bash           5:30PM  Fri, Jun/25/2004 |
+#  (The pipes indicate the edges of the xterm/console).
+
+# Green text, time, and date; windows in blue:
+#hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
+hardstatus alwayslastline '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%Y-%m-%d %{W}%c %{g}]'
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Some general options    ##
+
+# Turn off start message:
+#startup_message off
+
+# Set messages timeout to one second:
+#msgwait 1
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Keybindings    ##
+
+# bind F7  to detach screen session from this terminal
+# bind F8  to kill current screen window.
+# bind F9  to create a new screen
+# bind F10 to rename current screen window
+# bind F11 to move to previous window
+# bind F12 to move to next window
+#bindkey -k k7 detach
+#bindkey -k k8 kill
+#bindkey -k k9 screen
+#bindkey -k k; title
+#bindkey -k F1 prev
+#bindkey -k F2 next
+
+
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+# turn off visual bell
+#vbell_msg .bell: window ~%. # Message for visual bell
+defscrollback 30000
+vbellwait 0 # Seconds to pause the screen for visual bell
+vbell off                 # no visual bell
+
 startup_message off       # No startup mesage
 msgwait 1                 # Show messages for only one second
-escape `z                 # Use ` for escape instead of CTRL+A
 defscrollback 30000       # Use a 30000-line scrollback buffer
 bindkey -k kP copy        # bind shift+page-up/down to screen page up/down
 bindkey ^[[5C next        # bind ctrl-<right> to next shell
-bindkey ^[[5D prev        # bind ctrl-<left> to prev shell 
+bindkey ^[[5D prev        # bind ctrl-<left> to prev shell
 ignorecase on             # Ignore case in incremental search
-vbell off                 # no visual bell
 
 # Display status line: All windows, with the active window highlighted. Time and date right aligned.
 # hardstatus alwayslastline "%{= kR} %-Lw%{=b Kk} %n%f %t %{-}%+Lw %=%{= kR}%C%A  %D, %M/%d/%Y %{= dd}"
-hardstatus alwayslastline "%-Lw%{=b bw} %n%f %t %{-}%+Lw %=%C%A  %D, %M/%d/%Y %{= dd}"
+#hardstatus alwayslastline "%-Lw%{=b bw} %n%f %t %{-}%+Lw %=%C%A  %D, %M/%d/%Y %{= dd}"
 
 # http://www.jukie.net/bart/blog/screen-ssh-agent
 unsetenv SSH_AUTH_SOCK

@@ -4,7 +4,7 @@
 /node_modules
 
 #  == Eclipse ==
-
+#
 # @see: https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
 
 *.pydevproject
@@ -35,7 +35,7 @@ local.properties
 .buildpath
 
 
-# -- Android specific --
+# -- Android specific Eclipse ignores --
 # @see: http://stackoverflow.com/questions/3325736/eclipse-android-and-gitignore
 
 # built application files

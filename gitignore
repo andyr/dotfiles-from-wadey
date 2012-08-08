@@ -4,6 +4,40 @@
 /node_modules
 
 #  == Eclipse ==
+
+# @see: https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
+
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+
+# -- Android specific --
+# @see: http://stackoverflow.com/questions/3325736/eclipse-android-and-gitignore
+
 # built application files
 *.apk
 *.ap_

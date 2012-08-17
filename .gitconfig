@@ -1,0 +1,45 @@
+[github]
+    user = andyr
+    # token = <Github API token>
+[user]
+    email = andyr.dev@gmail.com
+    name = Andy Ramakrishna
+[color]
+    branch = auto
+    diff = auto
+    interactive = auto
+    log = auto
+    status = auto
+    grep = auto
+    ui = true
+    pager = true
+[format]
+    pretty = format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+[alias]
+    # basic commands
+    st = status
+    sb = !git st -sb
+    ci = commit
+    co = checkout
+    aa = add --all
+    br = branch
+    amend = commit --amend
+
+    # diff
+    df = diff
+    dc = diff --cached
+    di = diff --ignore-space-change
+
+    # files
+    ls = ls-files
+    last = cat-file commit HEAD
+    
+    # ignored files
+    ign = ls-files -o -i --exclude-standard
+
+    # log forms
+    lg = log --graph --abbrev-commit --date=relative
+    lg2 = !git lg -20
+    lga = !git lg --all
+    lgs = log --stat -p
+    

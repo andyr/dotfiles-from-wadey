@@ -1,10 +1,15 @@
 [github]
     user = andyr
     # token = <Github API token>
+
+
 [user]
     email = andyr.dev@gmail.com
     name = Andy Ramakrishna
+
+
 [color]
+    # not sure if all of these are valid for current version, but listing them explicitly doesn't seem to cause problems
     branch = auto
     diff = auto
     interactive = auto
@@ -13,33 +18,77 @@
     grep = auto
     ui = true
     pager = true
+
+
 [format]
     pretty = format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+
 [alias]
-    # basic commands
+    # basic
     st = status
-    sb = !git st -sb
-    ci = commit
-    co = checkout
+    sb = status -sb     # show short version of local changes
+
     aa = add --all
-    br = branch
     amend = commit --amend
+    br = branch
+    purge = reset --hard    # usage: git purge; discard local changes
 
     # diff
-    df = diff
-    dc = diff --cached
-    di = diff --ignore-space-change
+    df = diff --color-words
+    dc = !git df --cached
+    di = !git df --ignore-space-change
+    ds = !git df --stat
+    dsp = !git ds -p
 
-    # files
-    ls = ls-files
-    last = cat-file commit HEAD
-    
-    # ignored files
-    ign = ls-files -o -i --exclude-standard
+    ls = ls-files   # git ls: list files in this repo
+    ign = ls-files -o -i --exclude-standard     # git ign: list ignored files
+    last = cat-file commit HEAD     # git last; show the last commit
+    people = shortlog -s --     # git people: list of committers and respective number of commits
 
-    # log forms
-    lg = log --graph --abbrev-commit --date=relative
-    lg2 = !git lg -20
-    lga = !git lg --all
+    # Similar to hg in/out
+    incoming = !git fetch && git log ..origin/master
+    outgoing = !git fetch && git log origin/master..
+    in = !git incoming
+    out = !git outgoing
+
+
+    # Aliases and tips from:
+    # https://git.wiki.kernel.org/index.php/Aliases
+
+
+    # git abbr [<string-prefix>] - show hash codes start with the specified prefix
+    abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+
+    # git whois <person>|<email>
+    whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+
+    # git whatis <commit name>
+    whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+
+    # git log
+    lg = log --graph --decorate --abbrev-commit --date=relative
+    lga = !git lg --branches --remotes --all
     lgs = log --stat -p
-    
+
+    # git aliases
+    aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'     # display defined aliases
+
+    # creating a new shared repo as a remote
+    # @see: http://pietervogelaar.nl/create-git-bare-shared-remote-repository/
+    mkbare = "!sh -c 'git init --bare --shared=0775 && git config receive.denynonfastforwards true' -" # make cwd a bare remote repo to push into
+
+    # git prune-all
+    prune-all = !git remote | xargs -n 1 git remote prune   # prune all remote branches
+
+
+    # just use gitg instead but leaving these jfs
+    ka = !gitk --all
+    kdo = !gitk --date-order
+    kado = !gitk --all --date-order
+    kasd = !gitk --all --simplify-by-decoration
+
+    # Also see git-sh: http://rtomayko.github.com/git-sh/
+    # combine shell aliases and use those to define workflows
+
+

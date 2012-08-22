@@ -1,11 +1,11 @@
 [github]
-    user = andyr
-    # token = <Github API token>
+    user =
+    token =
 
 
 [user]
-    email = andyr.dev@gmail.com
-    name = Andy Ramakrishna
+    email =
+    name =
 
 
 [color]
@@ -32,7 +32,8 @@
     aa = add --all
     amend = commit --amend
     br = branch
-    purge = reset --hard    # usage: git purge; discard local changes
+    purge = reset --hard    # discard local changes
+    tip = log --stat -p -1  # last commit in the current repo
 
     # diff
     df = diff --color-words
@@ -45,6 +46,7 @@
     ign = ls-files -o -i --exclude-standard     # git ign: list ignored files
     last = cat-file commit HEAD     # git last; show the last commit
     people = shortlog -s --     # git people: list of committers and respective number of commits
+    remotes = remote -v
 
     # Similar to hg in/out
     incoming = !git fetch && git log ..origin/master
@@ -56,8 +58,7 @@
     # Aliases and tips from:
     # https://git.wiki.kernel.org/index.php/Aliases
 
-
-    # git abbr [<string-prefix>] - show hash codes start with the specified prefix
+    # git abbr [<string-prefix>] - show hash codes beginning with the specified prefix
     abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
 
     # git whois <person>|<email>
@@ -77,6 +78,12 @@
     # creating a new shared repo as a remote
     # @see: http://pietervogelaar.nl/create-git-bare-shared-remote-repository/
     mkbare = "!sh -c 'git init --bare --shared=0775 && git config receive.denynonfastforwards true' -" # make cwd a bare remote repo to push into
+
+    # git empty-tree-sha1
+    # (1) git diff -p $(git empty-tree-sha1) some-interesting-subdir/   # diff against empty tree to get a patch of the total change from all outgoing commits
+    # (2) git diff --check $(git empty-tree-sha1)   # whitespace violations in the current working tree
+    empty-tree-sha1 = hash-object -t tree /dev/null
+
 
     # git prune-all
     prune-all = !git remote | xargs -n 1 git remote prune   # prune all remote branches

@@ -27,11 +27,14 @@
 [alias]
     # basic
     st = status
-    sb = status -sb     # show short version of local changes
+    sb = status -s -b     # show short version of local changes
+    bs = !git sb
 
     aa = add --all
     amend = commit --amend
     br = branch
+    co = checkout
+    pu = pull --rebase      # pull and fast forward changes
     purge = reset --hard    # discard local changes
     tip = log --stat -p -1  # last commit in the current repo
 
@@ -55,7 +58,7 @@
     out = !git outgoing
 
 
-    # Aliases and tips from:
+    # Some aliases and tips from:
     # https://git.wiki.kernel.org/index.php/Aliases
 
     # git abbr [<string-prefix>] - show hash codes beginning with the specified prefix
@@ -80,7 +83,7 @@
     mkbare = "!sh -c 'git init --bare --shared=0775 && git config receive.denynonfastforwards true' -" # make cwd a bare remote repo to push into
 
     # git empty-tree-sha1
-    # (1) git diff -p $(git empty-tree-sha1) some-interesting-subdir/   # diff against empty tree to get a patch of the total change from all outgoing commits
+    # (1) git diff -p $(git empty-tree-sha1) some-interesting-subdir/   # diff against empty tree to get a patch of the delta across trees
     # (2) git diff --check $(git empty-tree-sha1)   # whitespace violations in the current working tree
     empty-tree-sha1 = hash-object -t tree /dev/null
 

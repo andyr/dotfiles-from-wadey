@@ -47,6 +47,8 @@
 
     ls = ls-files   # git ls: list files in this repo
     ign = ls-files -o -i --exclude-standard     # git ign: list ignored files
+    unmerged = ls-files --unmerged      # git unmerged: list files that need merging
+    resolve = add --update    # git resolve: mark conflicting files as resolved after manual merge
     last = cat-file commit HEAD     # git last; show the last commit
     people = shortlog -s --     # git people: list of committers and respective number of commits
     remotes = remote -v

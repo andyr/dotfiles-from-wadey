@@ -1,58 +1,154 @@
-[user]
-  name =
-  email =
 [github]
-  user =
-  token =
+    user = andyr
+    # token = <Github API token>
+
+
+[user]
+    email = andyr.dev@gmail.com
+    name = Andy Ramakrishna
+
+
 [color]
-  ui = true
+    # not sure if all of these are valid for current version, but listing them explicitly doesn't seem to cause problems
     branch = auto
     diff = auto
     interactive = auto
-    status = auto
+    log = auto
+    status = true
+    grep = auto
+    ui = true
+    pager = true
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = green
+    changed = blue
+    untracked = magenta
+    deleted = red
+
+
+[format]
+    pretty = format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+
 [alias]
-  st = status -sb
-  ci = commit
-  co = checkout
-  br = branch
-  cp = cherry-pick
-  up = pull --rebase
-  ff = pull --ff-only
-  lg = log --decorate
-  logs = log --stat --decorate
-  logg = log --graph --decorate --branches --remotes
-  last = cat-file commit HEAD
-  lsd = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  pop = stash pop
-  override = !sh -c 'echo git add -- $0 && echo git reset HEAD -q -- $0 && echo git checkout -- $0'
-  wu = log --stat origin..@{0}
-  unadd = rm --cached
-  sup = !git stash && git up && git pop
-  sff = !git stash && git ff && git pop
+    # basic
+    st = status
+    sb = status -s -b     # show short version of local changes
+    bs = !git sb
 
-  # force stash pop to apply, even if there are uncommitted changes
-  popf = !git stash show -p | git apply && git stash drop
-  applyf = !git stash show -p | git apply
+    aa = add --all
+    amend = commit --amend
+    br = branch
+    co = checkout
+    pu = pull --rebase      # pull and fast forward changes
+    purge = reset --hard    # discard local changes
+    tip = log --stat -p -1  # last commit in the current repo
 
-  # check if a branch has been merged into the current HEAD
-  merged = !sh -c 'git rev-list HEAD | grep $(git rev-parse $0)'
+    # diff
+    df = diff --color-words
+    dc = !git df --cached
+    di = !git df --ignore-space-change
+    ds = !git df --stat
+    dsp = !git ds -p
 
-  # git svn aliases
-  #svnpull = !git svn fetch && git svn rebase -l
-  svnrebase = !git stash && git svn rebase -l && git stash pop
-  svndcommit = !git stash && git svn dcommit && git stash pop
+    ls = ls-files   # git ls: list files in this repo
+    ign = ls-files -o -i --exclude-standard     # git ign: list ignored files
+    unmerged = ls-files --unmerged      # git unmerged: list files that need merging
+    resolve = add --update    # git resolve: mark conflicting files as resolved after manual merge
+    last = cat-file commit HEAD     # git last: show the last commit
+    people = shortlog -s --     # git people: list of committers and respective number of commits
+    remotes = remote -v
 
-  purge-remote = !sh -c 'echo git branch -a | echo sed -n \"/master$/d;s?^ *remotes/$0/??p\"'
-[mergetool "mvimdiff"]
-  cmd = mvimdiff \"$LOCAL\" \"$REMOTE\" \"$MERGED\" \"$BASE\"
-[mergetool "p4merge"]
-  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-  trustExitCode = false
-[mergetool]
-  keepBackup = false
-[merge]
-  tool = p4merge
-[push]
-  default = current
-[core]
-  excludesfile = /home/andy/.gitignore
+    # Similar to hg in/out
+    incoming = !git fetch && git log ..origin/master
+    outgoing = !git fetch && git log origin/master..
+    in = !git incoming
+    out = !git outgoing
+
+
+    # Some aliases and tips from:
+    # https://git.wiki.kernel.org/index.php/Aliases
+
+    # git abbr [<string-prefix>] - show hash codes beginning with the specified prefix
+    abbr = "!sh -c 'git rev-list --all | grep ^$1 | while read commit; do git --no-pager log -n1 --pretty=format:\"%H %ci %an %s%n\" $commit; done' -"
+
+    # git whois <person>|<email>
+    whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+
+    # git whatis <commit name>
+    whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+
+    # git log
+    lg = log --graph --decorate --abbrev-commit --date=relative
+    lga = !git lg --branches --remotes --all
+    lgs = log --stat -p
+
+    # git new - changes pulled in
+    new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+
+    # git aliases
+    aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'     # display defined aliases
+
+    # creating a new shared repo as a remote
+    # @see: http://pietervogelaar.nl/create-git-bare-shared-remote-repository/
+    mkbare = "!sh -c 'git init --bare --shared=0775 && git config receive.denynonfastforwards true' -" # make cwd a bare remote repo to push into
+
+    # git empty-tree-sha1
+    # (1) git diff -p $(git empty-tree-sha1) some-interesting-subdir/   # diff against empty tree to get a patch of the delta across trees
+    # (2) git diff --check $(git empty-tree-sha1)   # whitespace violations in the current working tree
+    empty-tree-sha1 = hash-object -t tree /dev/null
+
+
+    # git prune-all
+    prune-all = !git remote | xargs -n 1 git remote prune   # prune all remote branches
+
+
+    # Patching workflow
+    # * create a patch file, then use the output as the input to git am
+    # $> git format-patch origin/master..HEAD
+    # $> cd <another repo>
+    # $> cat <patch files> | git am
+    # also see git-apply; test if this applies .diff files
+
+    # From git-format-patch help:
+    #   ·   Extract commits between revisions R1 and R2, and apply them on top of the current branch using git am to cherry-pick them:
+    #
+    #           $ git format-patch -k --stdout R1..R2 | git am -3 -k
+    #
+    #   ·   Extract all commits which are in the current branch but not in the origin branch:
+    #
+    #           $ git format-patch origin
+    #
+    #       For each commit a separate file is created in the current directory.
+    #
+    #   ·   Extract all commits that lead to origin since the inception of the project:
+    #
+    #           $ git format-patch --root origin
+    #
+    #   ·   The same as the previous one:
+    #
+    #           $ git format-patch -M -B origin
+
+
+
+    # just use gitg instead but leaving these jfs
+    ka = !gitk --all
+    kdo = !gitk --date-order
+    kado = !gitk --all --date-order
+    kasd = !gitk --all --simplify-by-decoration
+
+    # Also see git-sh: http://rtomayko.github.com/git-sh/
+    # combine shell aliases and use those to define workflows
+
+

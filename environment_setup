@@ -1,0 +1,15 @@
+git
+bashrc (ubuntu aliases)
+vimrc
+ssh-agent (setup id_rsa, agent forwarding)
+screen
+tmux
+geany
+python
+virtualenv
+virtualenvwrapper
+nosetests
+mako, flask, etc.
+node env
+shoulda.js
+

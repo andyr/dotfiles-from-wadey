@@ -47,6 +47,7 @@ alias untar='tar -xzvf'
 # ====
 
 function ff() { find . -name '*'$1'*' ; }
+function ffi() { find . -type f -not -name '*.pyc' -name '*'$1'*' ; } # ignore .pyc files; make this more generic
 function gg() { grep -HnIr "$1" . ; }
 function gi() { grep -HnIir "$1" . ; }
 

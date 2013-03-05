@@ -41,6 +41,8 @@ alias findj='find . -name \*.java'
 alias untar='tar -xzvf'
 
 #alias tunnel_example="ssh -L 20080:localhost:10080 andy@localhost -N"
+#alias rootlogin_jump='ssh -t <jumpbox> "ssh -t <remote-host> '\''cd <remote-dir> && sudo -H -p Password[%p-\>%U]: -s'\''"'
+#alias rootlogin='ssh -t <remote-host> "cd <remote-dir> && sudo -H -p Password[%p-\>%U]: -s"'
 
 # ====
 # functions

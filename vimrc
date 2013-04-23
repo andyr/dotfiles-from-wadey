@@ -1,264 +1,442 @@
-set nocompatible            "enable new vim-only features
+" vim: fdm=marker:
+" Recommended for vim >= 7; no guarantee of compatibility with earlier versions
+" Lucas Oman <me@lucasoman.com>
+" --enable-rubyinterp --prefix=/usr --enable-ruby
+" Get latest from: http://github.com/lucasoman/Conf/raw/master/.vimrc
 
-let mapleader = ","
+" load pathogen
+call pathogen#runtime_append_all_bundles()
 
-source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
+"set t_Co=256
 
-filetype plugin indent on
+" misc options
+" {{{ interface
+" lines, cols in status line
+set ruler
+set rulerformat=%=%h%m%r%w\ %(%c%V%),%l/%L\ %P
 
-syntax enable               "syntax highlighting
+" a - terse messages (like [+] instead of [Modified]
+" t - truncate file names
+" I - no intro message when starting vim fileless
+" T - truncate long messages to avoid having to hit a key
+set shortmess=atTI
 
-set bg=dark                 "for dark background consoles
+" display the number of (characters|lines) in visual mode, also cur command
+set showcmd
 
-set tabstop=4               "tab = 4 spaces
-set softtabstop=4           "tab = 4 spaces
-set shiftwidth=4            "tab = 4 spaces
-set expandtab               "turn tabs in spaces
-set smarttab                "be smart about deleting tab space, etc
+" current mode in status line
+set showmode
 
-set backspace=2             "allow 'normal' backspacing
-set ruler                   "display current position in status line
-set autoindent              "indent to the level of the previous line
-set laststatus=2
-if exists("&relativenumber")
-    set relativenumber
-endif
-if exists("&undofile")
-    set undofile
-    set undodir=~/.vimundo
-endif
+" max items in popup menu
+set pumheight=8
 
-set showmatch               "display matching parentheses
-set showmode                "display the active mode in status line
-set showcmd                 "display key commands in status line
-"set showbreak=+             "display '-> ' before wrapped lines
+" show number column
+set number
+set numberwidth=3
 
-nnoremap / /\v
-vnoremap / /\v
-set ignorecase              "ignore case in searches
-set smartcase
-set gdefault
-set incsearch               "highlight search matches as you type them
-set hlsearch                "highlight search items"
+" show fold column, fold by markers (changing this to indent)
+set foldcolumn=2
+set foldmethod=indent
+set foldnestmax=2
 
-set modeline                "read modeline from files"
-set modelines=5             "look for modelines in first 5 lines"
+" indicate when a line is wrapped by prefixing wrapped line with '> '
+set showbreak=>\ 
 
-set copyindent              "copy the previous indentation on autoindenting
-set hidden                  "hide buffers instead of closing them
+" always show tab line
+set showtabline=2
 
-"" wrapping stuff
-set wrap
-set display+=lastline       "display the last line, even if it doesnt fit
-set textwidth=0             "When wrapping is off, break lines at 78 chars
-set formatoptions=qrn1
-if exists("&colorcolumn")
-    set colorcolumn=80,81,82
-    hi ColorColumn ctermbg=black guibg=grey10
-endif
+" highlight search matches
+set hlsearch
 
-set wildmenu
-set wildmode=list:longest
-set wildignore+=*.o,*.obj,*.pyc,*.class,.git,node_modules,lib-cov
+" highlight position of cursor
+"set cursorline
+"set cursorcolumn
 
-"" TOhtml stuff
-let html_use_css=1          "use css in HTML output
-let use_xhtml=1             "use xhtml in HTML output
+"set statusline=%f\ %2*%m\ %1*%h%r%=[%{&encoding}\ %{&fileformat}\ %{strlen(&ft)?&ft:'none'}\ %{getfperm(@%)}]\ 0x%B\ %12.(%c:%l/%L%)
+"set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+"set laststatus=2
+" }}}
+" {{{ behavior
+set nocompatible
+syntax on
+filetype on
+filetype plugin on
 
-"" miniBufferExplorer stuff
-let g:miniBufExplMapWindowNavVim = 1    "map <control> vim navigaiton keys
-let g:miniBufExplMapWindowNavArrows = 1 "map <control> arrow keys
-let g:miniBufExplMapCTabSwitchBufs = 1  "map <control> tab key
-let g:miniBufExplModSelTarget = 1       "because I use taglist as well
-"let g:miniBufExplForceSyntaxEnable = 1  "fix a bug with syntax in 6.3.1
+" fast terminal for smoother redrawing
+set ttyfast
 
-"" Folding
-set foldmethod=indent       "fold based on identation 
-set nofen                   "open all folds initially
+set omnifunc=syntaxcomplete#Complete
 
-set printoptions=paper:letter,number:y
+" indentation options
+" Note: smartindent is seriously outdated. cindent, even, is unnecessary.
+" Let the filetype plugins do the work.
+set tabstop=2
+set shiftwidth=2
+set expandtab
+"filetype indent on
+"set autoindent
+set cindent
 
-"" some system specific commmands
-if has("mac")
-    iab  rtime   <ESC>:r!gdate -R<CR>i<BS><ESC>A
-elseif has("unix")
-    iab  rtime   <ESC>:r!date -R<CR>i<BS><ESC>A
-endif
+" show matching enclosing chars for .1 sec
+set showmatch
+set matchtime=1
 
-"" toggle margins
-map ;L ;on-m
-map ;off-m      :set textwidth=0\|map ;L ;on-m<CR>
-map ;on-m       :set textwidth=78\|map ;L ;off-m<CR>
+" t: autowrap text using textwidth
+" l: long lines are not broken in insert mode
+" c: autowrap comments using textwidth, inserting leader
+" r: insert comment leader after <CR>
+" o: insert comment leader after o or O
+set formatoptions-=t
+set formatoptions+=lcro
+set textwidth=80
 
-" Change <tab>s to spaces
-map ;T :retab<CR>
+" context while scrolling
+set scrolloff=3
 
-nnoremap j gj
-nnoremap k gk
+" arrow keys, bs, space wrap to next/prev line
+set whichwrap=b,s,<,>,[,]
 
-"" GNU readline bindings
-map <C-A>   <Home>
-map <C-E>   <End>
-map <C-F>   <Right>
-map <C-B>   <Left>
-map <ESC>b  <S-Left>
-map <ESC>f <S-Right>
+" backspace over anything
+set backspace=indent,eol,start
 
-" Textmate like text movement
-nmap <C-Up> [e
-nmap <C-Down> ]e
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
+" case insensitive search if all lowercase
+set ignorecase smartcase
 
-" Visually select the text that was last edited/pasted
-nmap gV `[v`]
+" turn off bells, change to screen flash
+set visualbell
 
-"" F key toggles
-map <F7>    :set relativenumber!<CR>
-map <F8>    :set paste!<CR>
-map <F9>    :set wrap!<CR>
+" show our whitespace
+set listchars=tab:\|\ ,trail:.
+"set list
 
-map <F10>   :Tlist<CR>
-map <F11>   :wa!<CR>:!aspell -c --dont-backup "%"<CR>:e! "%"<CR><CR>
-map <F12>   :wa!<CR>:make<CR>
+" complete to longest match, then list possibilities
+set wildmode=longest,list
 
-"" smart tab completion
-" function! Smart_TabComplete()
-"   let line = getline('.')                         " curline
-"   let substr = strpart(line, -1, col('.'))      " from start to cursor
-"   let substr = matchstr(substr, "[^ \\t]*$")       " word till cursor
-"   if (strlen(substr)==0)                          " nothing to match on empty string
-"     return "\\<tab>"
-"   endif
-"   let has_period = match(substr, '\\.') != -1      " position of period, if any
-"   let has_slash = match(substr, '\\/') != -1       " position of slash, if any
-"   if (!has_period && !has_slash)
-"     return "\\<C-X>\\<C-P>"                         " existing text matching
-"   elseif ( has_slash )
-"     return "\\<C-X>\\<C-F>"                         " file matching
-"   else
-"     return "\\<C-X>\\<C-O>"                         " plugin matching
-"   endif
-" endfunction
-" :inoremap <Tab> <C-R>=Smart_TabComplete()<CR>
+" turn off swap files
+set noswapfile
 
-" The <CR> key should select from completion menu without adding a newline
-"imap <expr> <CR> pumvisible() ? "<C-Y>" : "<CR>"
-"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" options for diff mode
+set diffopt=filler
+set diffopt+=context:4
+set diffopt+=iwhite
+set diffopt+=vertical
 
-"let g:SuperTabDefaultCompletionType = "context"
+" keep a lot of history
+set history=100
 
-set verbose=0
+" keep lots of stuff
+set viminfo+=:100
+set viminfo+=/100
 
-set list
-"set listchars=tab:>-,trail:·,eol:$
-"set listchars=tab:▸\ ,eol:¬
-if &encoding == "utf-8"
-    set listchars=tab:▸\ ,trail:•
-else
-    set listchars=tab:>-,trail:.
-endif
-nmap <silent> <leader>s :set nolist!<CR>
-nmap <silent> <leader>n :silent :nohlsearch<CR>
-nmap . .`[
+" don't duplicate an existing open buffer
+set switchbuf=useopen
 
-cmap w!! w !sudo tee % >/dev/null
+" }}}
+" {{{ colors
+highlight SpecialKey cterm=bold ctermfg=0
+" tabe line colors
+highlight TabLineFill ctermfg=DarkGray
+highlight TabLine ctermfg=4 ctermbg=DarkGray cterm=bold
+highlight TabLineSel ctermfg=7 cterm=none ctermbg=DarkGray
 
-" GIT
-" set laststatus=2
-" set statusline=%<%f[%{GitBranch()}]\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-" set statusline=%<%f\ %3*%{strlen(&ft)?&ft:'none'}%*\ %4*%{fugitive#statusline()}%*%h%m%r%=%-14.(%l,%c%V%)\ %P
+" number column colors
+highlight LineNr cterm=none ctermbg=none ctermfg=4
 
-" From https://gist.github.com/840731
-set statusline=\ "
-set statusline+=%-25.80f\ " file name minimum 25, maxiumum 80 (right justified)
-set statusline+=%h "help file flag
-set statusline+=%r "read only flag
-set statusline+=%m "modified flag
-set statusline+=%w "preview flag
-set statusline+=\ "
-set statusline+=[
-set statusline+=%{strlen(&ft)?&ft:'none'} " filetype
-set statusline+=]\ "
-set statusline+=%1*%{fugitive#statusline()}%*\ " Fugitive
-"set statusline+=%5*%{Rvm#statusline()}%*\ " RVM
-set statusline+=%#warningmsg#%{SyntasticStatuslineFlag()}%* " Syntastic Syntax Checking
-set statusline+=%= " right align
-set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
+" fold colors
+highlight Folded cterm=none ctermbg=none ctermfg=4
+highlight FoldColumn cterm=none ctermbg=none ctermfg=4
 
-" Don't count warnings as errors
-" let g:syntastic_quiet_warnings=1
-let g:syntastic_stl_format = '%E{[Err: %fe #%e]}'
+" visual mode colors
+highlight Visual ctermbg=7 ctermfg=4
 
-au BufRead,BufNewFile *.thrift set filetype=thrift
-au BufRead,BufNewFile *.json set filetype=json
+" dictionary menu colors
+highlight Pmenu ctermbg=7 ctermfg=0
+highlight PmenuSel ctermbg=Yellow ctermfg=0
 
-if has("autocmd")
-    autocmd Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap
+" diff colors
+highlight DiffAdd cterm=none ctermbg=4
+highlight DiffDelete cterm=none ctermbg=4
+highlight DiffChange cterm=none ctermbg=4
+highlight DiffText cterm=none ctermbg=4
 
-    autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd FileType json setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-    autocmd FileType coffee setlocal shiftwidth=2 tabstop=2 softtabstop=2
+" keep cursor column last so it overrides all others
+highlight CursorColumn cterm=none ctermbg=Black
+highlight CursorLine cterm=none ctermbg=Black
 
-    " http://vimcasts.org/episodes/fugitive-vim-browsing-the-git-object-database/
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-    autocmd User fugitive
-      \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-      \   nnoremap <buffer> .. :edit %:h<CR> |
-      \ endif
-endif
+highlight Search cterm=none ctermbg=7 ctermfg=4
 
-" Removes trailing spaces
-command! TrimWhiteSpace %s/\v\s+$//
+" make sure bold is disabled or your terminal will look like the vegas strip
+set background=dark
+" }}}
+" {{{ filetype dependent
+autocmd BufNewFile,BufRead *.html setlocal commentstring=<!--%s-->
+" ruby commenstring
+autocmd FileType ruby setlocal commentstring=#%s
+" make help navigation easier
+autocmd FileType help nnoremap <buffer> <CR> <C-]>
+autocmd FileType help nnoremap <buffer> <BS> <C-T>
+"}}}
+"php syntax options {{{
+let php_sql_query = 1  "for SQL syntax highlighting inside strings
+let php_htmlInStrings = 1  "for HTML syntax highlighting inside strings
+"php_baselib = 1  "for highlighting baselib functions
+"php_asp_tags = 1  "for highlighting ASP-style short tags
+"php_parent_error_close = 1  "for highlighting parent error ] or )
+"php_parent_error_open = 1  "for skipping an php end tag, if there exists an open ( or [ without a closing one
+"php_oldStyle = 1  "for using old colorstyle
+"php_noShortTags = 1  "don't sync <? ?> as php
+let php_folding = 1  "for folding classes and functions
+" }}}
+"netrw options {{{
+let g:netrw_sort_sequence = '[\/]$,\.php,\.phtml,*,\.info$,\.swp$,\.bak$,\~$'
+"}}}
+"{{{taglist options
+" set the names of flags
+let tlist_php_settings = 'php;c:class;f:function;d:constant;p:property'
+" close all folds except for current file
+let Tlist_File_Fold_Auto_Close = 1
+" make tlist pane active when opened
+let Tlist_GainFocus_On_ToggleOpen = 1
+" width of window
+let Tlist_WinWidth = 60
+" close tlist when a selection is made
+let Tlist_Close_On_Select = 1
+" show the prototype
+let Tlist_Display_Prototype = 1
+" show tags only for current buffer
+let Tlist_Show_One_File = 1
+"}}}
+"{{{html options
+let html_use_css = 1
+"}}}
 
-if (&t_Co == 256 || &t_Co == 88) && !has('gui_running')
-  " Use the guicolorscheme plugin to makes 256-color or 88-color
-  " terminal use GUI colors rather than cterm colors.
-  runtime! bundle/guicolorscheme/plugin/guicolorscheme.vim
-  GuiColorScheme twilight
+" mappings
+" {{{ general
+let mapleader = "\\"
+" easier move screen up/down
+nmap <C-j> <C-e>
+nmap <C-k> <C-y>
+nmap <space> za
+" turns off highlighting
+nmap <Leader>/ :nohl<CR>
+" search for highlighted text
+vmap // y/<C-R>"<CR>
+" keep block highlighted when indenting
+vmap >> >gv
+vmap << <gv
+" fix a block of XML; inserts newlines, indents properly, folds by indent
+nmap <Leader>fx :setlocal filetype=xml<CR>:%s/></>\r</g<CR>:1,$!xmllint --format -<CR>:setlocal foldmethod=indent<CR>
+" comment/uncomment highlighted block
+vmap <Leader>cc :s!^!//!<CR>
+vmap <Leader>cu :s!^//!!<CR>
+" open local projects list file
+nmap <Leader>l :70vsplit ~/Dropbox/projects.list<CR>
+" fix syntax highlighting
+nmap <Leader>ss :syntax sync fromstart<CR>
+" toggle the tag list
+nmap <Leader>tl :TlistToggle<CR>
+" toggle gundo
+nmap <Leader>gu :GundoToggle<CR>
+" make arrow keys useful
+" use them to swap between split windows
+nmap <left> <C-W>h
+nmap <right> <C-W>l
+nmap <up> <C-W>k
+nmap <down> <C-W>j
+"}}}
+" php {{{
+" syntax check
+nmap <Leader>ps :!php -l %<CR>
+" run current script
+nmap <Leader>pr :!php % \| less -F<CR>
+" lookup keyword in function reference
+nmap <Leader>ph :!pman <cword><CR>
+" create test method
+nmap <Leader>pt o<CR>/**<CR>@test<CR>/<CR>public function<TAB>
+" phpdoc comments
+nmap <Leader>cc o/**<CR>$Rev$<CR>$Date$<CR>$Id$<CR>$Author$<CR>$HeadURL$<CR><CR><CR><CR>@package <CR><BS>/<ESC>kkk$a 
+nmap <Leader>cb o/**<CR><CR><CR>@param <CR>@return <CR>@example <CR><BS>/<ESC>kkkkk$a 
+nmap <Leader>cv o/**<CR><CR><CR>@var <CR><BS>/<ESC>kkk$a 
+nmap <Leader>cp o/**<CR><CR><CR>@author Lucas Oman <me@lucasoman.com><CR>@param <CR>@return <CR>@example <CR><BS>/<ESC>kkkkkk$a 
+"}}}
+" svn {{{
+" set svn keywords
+nmap <Leader>sk :!svn propset svn:keywords "Rev Date Id Author HeadURL" %<CR>
+nmap <Leader>sp :call SvnPushFile()<CR>
+com! -nargs=1 Sstat :call SvnStatus("<args>")
 
-  " iTerm2 cursor
-  " http://www.iterm2.com/#/section/documentation/escape_codes
-  " Use a bar-shaped cursor for insert mode, even through tmux.
-  if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" view status of given path
+fun! SvnStatus(path)
+	tabe
+	setl buftype=nofile
+	exe "r !svn st ".a:path
+endfunction
+
+" call script to copy file to appropriate location in htdocs
+fun! SvnPushFile()
+	let line = getline('.')
+	let file = strpart(l:line,8)
+	exe "!~/lib/updatedev.php ".l:file
+endfunction
+"}}}
+"f keys {{{
+nmap <F2> :call ToggleColumns()<CR>
+imap <F2> <C-o>:call ToggleColumns()<CR>
+nmap <F3> :Nload<CR>
+" <F4>
+set pastetoggle=<F5>
+" <F6>
+nmap <F7> :!updatedev.php %:p<CR>
+nmap <F8> :call WriteTrace()<CR>
+nmap <F9> \ph
+" <F10>
+" <F11> don't use; terminal full-screen
+" <F12>
+" }}}
+"{{{ list file
+let g:listFile_ranks = ['=','1','2','3','4','5','!','o','-','?','x']
+autocmd BufNewFile,BufRead *.list call MyListFileStuff()
+fun! MyListFileStuff()
+	nmap <buffer> ,! :Lmark !<CR>
+	vmap <buffer> ,! :Lmark !<CR>
+	nmap <buffer> ,tq :Ltag quick<CR>
+	vmap <buffer> ,tq :Ltag quick<CR>
+	nmap <buffer> ,sq :Lsearch tag quick<CR>
+	nmap <buffer> ,d ,x,t,r
+endfunction
+"}}}
+
+" minor helpful stuff
+fun! ToggleColumns() "{{{
+	"make it easy to remove line number column etc. for cross-terminal copy/paste
+  if &number
+    set nonumber
+    set foldcolumn=0
+    let s:showbreaktmp = &showbreak
+    set showbreak=
   else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  endif
-endif
+    set number
+    set foldcolumn=2
+    let &showbreak = s:showbreaktmp
+  end
+endfunction
+"}}}
+fun! WriteTrace() "{{{
+	let lineNum = line('.')
+	let lineFile = bufname('%')
+	let lineVal = getline(lineNum)
 
-" ConqueTerm settings
-let g:ConqueTerm_ReadUnfocused = 1
-let g:ConqueTerm_InsertOnEnter = 1
-let g:ConqueTerm_CWInsert = 1
+	let allLines = readfile($HOME."/trace.txt")
+	let allLines = add(allLines,lineFile.":".lineNum)
+	let allLines = add(allLines,lineVal)
+	let allLines = add(allLines,"")
 
-" Makes it easy to run a shells
-" example: can do ":Node %" to run the current file
-command! -nargs=* -complete=file Shell ConqueTermSplit <args>
-command! -nargs=* -complete=file Zsh ConqueTermSplit zsh <args>
-command! -nargs=* -complete=file Node ConqueTermSplit node <args>
-command! -nargs=* -complete=file Python ConqueTermSplit python <args>
+	call writefile(allLines,$HOME."/trace.txt")
+endfunction
+"}}}
+"{{{ctags stuff
+nmap <Leader>tf :call CtagsFind(expand('<cword>'))<CR>
+com! -nargs=+ Tf :call CtagsFind("<args>")
+" split window and search for tag
+nmap <Leader>ts :exe('stj '.expand('<cword>'))<CR>
 
-" use python json to Tidy a file
-command! -range=% -nargs=* Json <line1>,<line2>!python -mjson.tool <args>
+" open new tab and search for tag
+fun! CtagsFind(keyword)
+	tabe
+	exe "tj ".a:keyword
+endfunction
+"}}}
 
-" Support xterm mouse
-set mouse=a
+" stand-alone components
+"{{{ TAB-COMPLETE and SNIPPETS
+" add new snippets as regex=>completion
+" first match encountered is used
+let s:snippets = {}
+let s:snippets['^\s*if$'] = " () {\<CR>}\<ESC>k^f)i" 
+let s:snippets['function$'] = " () {\<CR>}\<ESC>k^f(i" 
+let s:snippets['^\s*class$'] = "  {\<CR>}\<ESC>kt{i"
+let s:snippets['^\s*interface$'] = "  {\<CR>}\<ESC>kt{i"
+let s:snippets['^\s*foreach$'] = " () {\<CR>}\<ESC>k^f)i" 
+let s:snippets['^\s*while$'] = " () {\<CR>}\<ESC>k^f)i" 
 
-" Support bracketed paste
-" http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x/7053522#7053522
-if &term =~ "xterm.*"
-    let &t_ti = &t_ti . "\e[?2004h"
-    let &t_te = "\e[?2004l" . &t_te
-    function XTermPasteBegin(ret)
-        set pastetoggle=<Esc>[201~
-        set paste
-        return a:ret
-    endfunction
-    map <expr> <Esc>[200~ XTermPasteBegin("i")
-    imap <expr> <Esc>[200~ XTermPasteBegin("")
-endif
+"}}}
+"CODE GREP {{{
+" grep for given string (second is case insensitive)
+" simply a wrapper for vimgrep
+" eg: :F /badxmlexception/ lib php
+com! -nargs=+ F :call CommandFind("<args>")
+fun! CommandFind(args)
+	tabe
+	let parts = split(a:args,' ')
+	exe "vimgrep ".l:parts[0]." ".l:parts[1]."/**/*.".l:parts[2]
+	exe "copen"
+endfunction
+"}}}
+"{{{ TAB MGMT
+" Some useful bits for managing tabs.
+" Also changes format of tab line.
+" Commands and shortcuts:
+" \oc - open dir of current file in new tab
+" H - navigate to tab to the left
+" L - navigate to tab to the right
+" C-l - move current tab left
+" C-h - move current tab right
+" gf - changes default behavior from opening file under cursor in current window to opening in new tab
+nmap <Leader>oc :tabe %:h<CR>
+
+" quicker aliases for navigating tabs
+nmap H gT
+nmap L gt
+" move tab left or right
+nmap <C-l> :call MoveTab(0)<CR>
+nmap <C-h> :call MoveTab(-2)<CR>
+
+" gf should use new tab, not current buffer
+map gf :tabe <cfile><CR>
+
+"tab line
+fun! MyTabLine()
+	let s = ''
+	for i in range(tabpagenr('$'))
+		" select the highlighting
+		if i + 1 == tabpagenr()
+			let s .= '%#TabLineSel#'
+		else
+			let s .= '%#TabLine#'
+		endif
+		" set the tab page number (for mouse clicks)
+		let s .= '%' . (i + 1) . 'T'.(i+1).''
+		" the filename is made by MyTabLabel()
+		let s .= '%{MyTabLabel(' . (i + 1) . ')}  '
+	endfor
+	" after the last tab fill with TabLineFill and reset tab page nr
+	let s .= '%#TabLineFill#%T'
+	return s
+endfunction
+
+fun! MyTabLabel(n)
+	let buflist = tabpagebuflist(a:n)
+	let winnr = tabpagewinnr(a:n)
+	let fullname = bufname(buflist[winnr - 1])
+	" show a/b/c/filename.ext
+	"let fullname = substitute(fullname,"(\w){1}\w*/","\1/","g")
+	" show filename.ext
+	let fullname = substitute(fullname,".*/","","")
+	if getbufvar(buflist[winnr - 1],"&mod")
+		let modified = "+"
+	else
+		let modified = " "
+	endif
+	return modified.fullname
+endfunction
+
+" Use the above tabe naming scheme
+set tabline=%!MyTabLine()
+
+"tab moving
+fun! MoveTab(n)
+	let which = tabpagenr()
+	let which = which + a:n
+	exe "tabm ".which
+endfunction
+"}}}

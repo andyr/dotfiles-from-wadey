@@ -1,0 +1,48 @@
+[ui]
+username = Andy Ramakrishna <andyr.dev@gmailcom>
+editor = vim
+
+[color]
+status.modified = cyan
+status.added = green
+status.removed = red
+status.deleted = yellow bold underline
+status.unknown = magenta bold underline
+status.ignored = black bold
+
+diff.diffline = bold
+diff.extended = cyan bold
+diff.file_a = red bold
+diff.file_b = green bold
+diff.hunk = magenta
+diff.deleted = red
+diff.inserted = green
+diff.changed = white
+diff.trailingwhitespace = bold red_background
+
+#diff.diffline = none
+#diff.extended = cyan
+#diff.file_a = red
+#diff.file_b = green
+#diff.hunk = yellow bold
+#diff.deleted = red
+#diff.inserted = green
+#diff.changed = white
+#diff.trailingwhitespace = white_background
+
+[pager]
+pager = LESS='FSRX' less
+
+[alias]
+st = status -SC
+? = summary
+show = log -pr
+purge = revert --no-backup --all
+cm = commit -m
+diff = diff -p --color=auto
+
+# Run a colored diff and pipe it to less.
+dl = !"$HG" diff -p --color=always $@ | less -R
+
+
+

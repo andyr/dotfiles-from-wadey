@@ -4,8 +4,14 @@
 " --enable-rubyinterp --prefix=/usr --enable-ruby
 " Get latest from: http://github.com/lucasoman/Conf/raw/master/.vimrc
 
+
+filetype off
 " load pathogen
-call pathogen#runtime_append_all_bundles()
+" call pathogen#runtime_append_all_bundles()
+call pathogen#incubate()
+call pathogen#helptags()
+syntax on
+filetype plugin indent on
 
 "set t_Co=256
 
@@ -34,10 +40,27 @@ set pumheight=8
 set number
 set numberwidth=3
 
-" show fold column, fold by markers (changing this to indent)
+" show fold column, fold by markers
 set foldcolumn=2
-set foldmethod=indent
-set foldnestmax=2
+
+" (1) Simple folding rule for python
+"set foldmethod=indent
+"set foldnestmax=2
+
+" (2) Syntax folding rules
+set foldmethod=syntax
+set foldlevelstart=1
+
+let javaScript_fold=1         " JavaScript
+let perl_fold=1               " Perl
+let php_folding=1             " PHP
+let r_syntax_folding=1        " R
+let ruby_fold=1               " Ruby
+let sh_fold_enabled=1         " sh
+let vimsyn_folding='af'       " Vim script
+let xml_syntax_folding=1      " XML
+let python_syntax_folding=1
+let ruby_syntax_folding=1
 
 " indicate when a line is wrapped by prefixing wrapped line with '> '
 set showbreak=>\ 
@@ -293,6 +316,11 @@ nmap <F9> \ph
 " <F11> don't use; terminal full-screen
 " <F12>
 " }}}
+
+" Single Nerdtree instance on every tab
+" map <Leader>n <plug>NERDTreeTabsToggle<CR>
+map <C-n> :NERDTreeTabsToggle<CR>
+
 "{{{ list file
 let g:listFile_ranks = ['=','1','2','3','4','5','!','o','-','?','x']
 autocmd BufNewFile,BufRead *.list call MyListFileStuff()
@@ -358,6 +386,40 @@ let s:snippets['^\s*class$'] = "  {\<CR>}\<ESC>kt{i"
 let s:snippets['^\s*interface$'] = "  {\<CR>}\<ESC>kt{i"
 let s:snippets['^\s*foreach$'] = " () {\<CR>}\<ESC>k^f)i" 
 let s:snippets['^\s*while$'] = " () {\<CR>}\<ESC>k^f)i" 
+
+" when tab is pressed:
+" 1) checks snippets for matches, return match if there is one
+" 2) if character behind cursor is whitespace, just return a tab
+" 3) if word behind cursor contains a slash, try filename complete
+" 4) otherwise, try to ctrl-p complete
+" fun! CleverTab()
+" 	if pumvisible()
+" 		return "\<C-N>"
+" 	endif
+" 	if col('.') > 1
+" 		let beginning = strpart( getline('.'), 0, col('.')-1 )
+" 		let words = split(l:beginning,' ')
+" 		let thisWord = l:words[-1]
+" 
+" 		for key in keys(s:snippets)
+" 			if l:beginning =~ key
+" 				return s:snippets[key]
+" 			endif
+" 		endfor
+" 	else
+" 		let beginning = ''
+" 	endif
+" 
+" 	if l:beginning == '' || l:beginning =~ '\s$'
+" 		return "\<Tab>"
+" 	elseif (l:thisWord =~ '/')
+" 		return "\<C-X>\<C-F>"
+" 	else
+" 		return "\<C-X>\<C-O>"
+" 		"return "\<C-P>"
+" 	endif
+" endfunction
+" imap <Tab> <C-R>=CleverTab()<CR>
 
 "}}}
 "CODE GREP {{{

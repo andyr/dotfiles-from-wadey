@@ -1,6 +1,18 @@
 [ui]
-username = Andy Ramakrishna <andyr.dev@gmailcom>
+username = Andy Ramakrishna <andyr.dev@gmail.com>
 editor = vim
+ssh = ssh -C
+
+[extensions]
+color = 
+graphlog = 
+mq = 
+notify = 
+pager = 
+progress = 
+purge = 
+rebase = 
+
 
 [color]
 status.modified = cyan

@@ -1,9 +1,9 @@
 if [ -f /etc/bashrc ]; then
-    source /etc/bashrc
+  source /etc/bashrc
 fi
 
-#PATH=$PATH:$HOME/bin
-#export PATH
+PATH=$PATH:$HOME/bin
+export PATH
 
 export EDITOR=vim
 export TERM=xterm-color
@@ -21,10 +21,10 @@ export PS4=$'+ '
 # Virtual Env and pip settings
 export PIP_RESPECT_VIRTUALENV=true
 export PIP_DOWNLOAD_CACHE=$HOME/pip_cache
-source /usr/local/bin/virtualenvwrapper.sh
+#source /usr/local/bin/virtualenvwrapper.sh
 
 # Aliases
-#alias ls='ls -Gh'
+alias ls='ls -Gh --color=auto'
 
 # Make ipython aware of the current virtualenv
 alias ipython="python -c 'import IPython; IPython.embed()'"
@@ -39,7 +39,7 @@ alias pf='ps auxf'
 alias findp='find . -name \*.py'
 alias findj='find . -name \*.java'
 alias untar='tar -xzvf'
-
+alias npm-help="python ~/scripts/list-npm-commands.py"
 #alias tunnel_example="ssh -L 20080:localhost:10080 andy@localhost -N"
 #alias rootlogin_jump='ssh -t <jumpbox> "ssh -t <remote-host> '\''cd <remote-dir> && sudo -H -p Password[%p-\>%U]: -s'\''"'
 #alias rootlogin='ssh -t <remote-host> "cd <remote-dir> && sudo -H -p Password[%p-\>%U]: -s"'
@@ -52,15 +52,16 @@ function ff() { find . -name '*'$1'*' ; }
 function ffi() { find . -type f -not -name '*.pyc' -name '*'$1'*' ; } # ignore .pyc files; make this more generic
 function gg() { grep -HnIr "$1" . ; }
 function gi() { grep -HnIir "$1" . ; }
+function memusage() { ps aux | awk 'NR != 1 {x[$1] += $4} END{ for(z in x) { if(x[z]>0) { print z, x[z]"%" } }}' ; }
 
 # ============================
 # Virtualenv nosetests helpers
 # ============================
 
 function install_nose() {
-    cd test/nose/;
-    python 'setup.py' install --prefix=~/.virtualenvs/$1;
-    cd ../..;
+  cd test/nose/;
+  python 'setup.py' install --prefix=~/.virtualenvs/$1;
+  cd ../..;
 }
 alias run_nose="python `which nosetests`"
 
@@ -72,7 +73,7 @@ eval `keychain --eval --agents ssh id_rsa`
 # * Useful for customizing terminal multiplexers, etc.
 #=======================================================
 function terminal_colors() {
-    for i in {0..255} ; do
-        printf "\x1b[38;5;${i}mcolour${i}\n"
-    done
+  for i in {0..255} ; do
+    printf "\x1b[38;5;${i}mcolour${i}\n"
+  done
 }

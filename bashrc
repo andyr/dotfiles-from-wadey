@@ -73,6 +73,9 @@ alias run_nose="python `which nosetests`"
 #==========
 eval `keychain --eval --agents ssh id_rsa`
 
+# Generate keys with:
+# ssh-keygen -t rsa -C "your_email@example.com"
+
 # Display 256 color palette in the shell
 # * Useful for customizing terminal multiplexers, etc.
 #=======================================================

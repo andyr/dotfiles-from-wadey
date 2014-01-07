@@ -11,12 +11,15 @@ export LANG=en_US.UTF-8
 
 #export PYTHONPATH=/home/andy/code/lib/python2.7
 # Unset PYTHONPATH environment var since we're using virtualenv
-unset PYTHONPATH
+#unset PYTHONPATH
 
 export PS1=$'\\[\\033]0;\\w\\007\n\\033[32m\\][\u@\h] \\[\\033[33m\\w\\033[0m\\]\n$ '
 export PS2=$'> '
 export PS4=$'+ '
 
+# CentOS 6, start ssh-agent
+#exec /usr/bin/ssh-agent $SHELL
+#ssh-add
 
 # Virtual Env and pip settings
 export PIP_RESPECT_VIRTUALENV=true
@@ -28,7 +31,7 @@ alias ls='ls -Gh --color=auto'
 
 # Make ipython aware of the current virtualenv
 alias ipython="python -c 'import IPython; IPython.embed()'"
-
+alias start-ssh-agent="$(ssh-agent -s)"
 alias ll='ls -ls'
 alias la='ls -las'
 
@@ -38,8 +41,11 @@ alias md5sum="openssl dgst -md5"
 alias pf='ps auxf'
 alias findp='find . -name \*.py'
 alias findj='find . -name \*.java'
-alias untar='tar -xzvf'
 alias npm-help="python ~/scripts/list-npm-commands.py"
+alias untar='tar -xvf'      # .tar
+alias untargz='tar -xzvf'    # .tar.gz
+alias untarbz2='tar -xjvf'   # .tar.bz2
+
 #alias tunnel_example="ssh -L 20080:localhost:10080 andy@localhost -N"
 #alias rootlogin_jump='ssh -t <jumpbox> "ssh -t <remote-host> '\''cd <remote-dir> && sudo -H -p Password[%p-\>%U]: -s'\''"'
 #alias rootlogin='ssh -t <remote-host> "cd <remote-dir> && sudo -H -p Password[%p-\>%U]: -s"'
@@ -68,6 +74,9 @@ alias run_nose="python `which nosetests`"
 # Keychain
 #==========
 eval `keychain --eval --agents ssh id_rsa`
+
+# Generate keys with:
+# ssh-keygen -t rsa -C "your_email@example.com"
 
 # Display 256 color palette in the shell
 # * Useful for customizing terminal multiplexers, etc.

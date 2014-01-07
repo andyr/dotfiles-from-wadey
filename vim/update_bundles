@@ -25,7 +25,9 @@ git_bundles = [
   "git://github.com/tpope/vim-unimpaired.git",
   "git://github.com/bmatheny/vim-scala.git",
   "git://github.com/mjwall/clj-vim.git",
-  "git://github.com/Lokaltog/vim-powerline.git"
+  "git://github.com/Lokaltog/vim-powerline.git",
+  "https://github.com/scrooloose/nerdtree.git",
+  "https://github.com/jistr/vim-nerdtree-tabs.git"
 ]
 
 vim_org_scripts = [

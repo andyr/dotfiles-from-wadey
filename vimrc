@@ -97,7 +97,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 "filetype indent on
-"set autoindent
+set autoindent
 set cindent
 
 " show matching enclosing chars for .1 sec
@@ -188,6 +188,12 @@ highlight CursorLine cterm=none ctermbg=Black
 
 highlight Search cterm=none ctermbg=7 ctermfg=4
 
+" K comments the current line (#)
+" Ctrl + K uncomments the current line (#).
+" http://stackoverflow.com/questions/460496/whats-the-most-elegant-way-of-commenting-uncommenting-blocks-of-ruby-code-in
+" noremap   <buffer> K      :s,^\(\s*\)[^# \t]\@=,\1#,e<CR>:nohls<CR>zvj
+" noremap   <buffer> <C-K>  :s,^\(\s*\)#\s\@!,\1,e<CR>:nohls<CR>zvj
+
 " make sure bold is disabled or your terminal will look like the vegas strip
 set background=dark
 " }}}
@@ -232,7 +238,7 @@ let Tlist_Show_One_File = 1
 "{{{html options
 let html_use_css = 1
 "}}}
-
+au BufNewFile,BufRead *.less set filetype=less
 " mappings
 " {{{ general
 let mapleader = "\\"

@@ -152,3 +152,56 @@
     # combine shell aliases and use those to define workflows
 
 
+  cp = cherry-pick
+  up = pull --rebase
+  ff = pull --ff-only
+  lg = log --decorate
+  logs = log --stat --decorate
+  logg = log --graph --decorate --branches --remotes
+  pop = stash pop
+  override = !sh -c 'echo git add -- $0 && echo git reset HEAD -q -- $0 && echo git checkout -- $0'
+  wu = log --stat origin..@{0}
+  unadd = rm --cached
+  sup = !git stash && git up && git pop
+  sff = !git stash && git ff && git pop
+
+  # force stash pop to apply, even if there are uncommitted changes
+  popf = !git stash show -p | git apply && git stash drop
+  applyf = !git stash show -p | git apply
+
+  # check if a branch has been merged into the current HEAD
+  merged = !sh -c 'git rev-list HEAD | grep $(git rev-parse $0)'
+
+  # git svn aliases
+  #spull = !git svn fetch && git svn rebase -l
+  srebase = !git stash && git svn rebase -l && git stash pop
+  sdcommit = !git stash && git svn dcommit && git stash pop
+
+  # move the last commit to a new branch
+  rebranch = !sh -c 'git branch $0 && git reset --hard HEAD^ && git checkout $0'
+
+  purge-remote = !sh -c 'echo git branch -a | echo sed -n \"/master$/d;s?^ *remotes/$0/??p\"'
+  exec = "!exec "
+  root = rev-parse --show-toplevel
+
+  # diff-highlight
+  diffh = !sh -c 'git diff --color | diff-highlight'
+  diffhf = !sh -c 'git diff --color | diff-highlight | diff-so-fancy'
+[mergetool "mvimdiff"]
+  cmd = mvimdiff \"$LOCAL\" \"$REMOTE\" \"$MERGED\" \"$BASE\"
+[mergetool "p4merge"]
+  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+  trustExitCode = false
+[mergetool]
+  keepBackup = false
+[merge]
+  tool = p4merge
+[push]
+  default = current
+[core]
+  excludesfile = $HOME/.gitignore
+  # New in Git 2.8.0
+  # https://git-scm.com/docs/git-update-index#_untracked_cache
+  # Test with:
+  #   git update-index --test-untracked-cache
+  untrackedCache = true

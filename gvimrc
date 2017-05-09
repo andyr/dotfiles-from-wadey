@@ -1,9 +1,15 @@
-color twilight
-hi User1 guifg=#90ff90 guibg=#333333 " Fugitive
+"color jellybeans
+"hi User1 guifg=#90ff90 guibg=#333333 " Fugitive
 
 set transparency=1
 
-set guifont=Menlo:h12
+"set guifont=Menlo:h12
+"set guifont=Source\ Code\ Pro\ Semibold:h12
+"set guifont=Source\ Code\ Pro:h12
+"set guifont=Fira\ Code:h12
+set guifont=Hasklig:h12
+
+set macligatures
 
 " GUI Option to remove the Toolbar (T)
 " set guioptions-=T
@@ -25,6 +31,9 @@ set lines=60
 "highlight StatusLine gui=bold guifg=white guibg=blue
 setlocal cul
 
-macm File.Open\ Tab\.\.\.<Tab>:tabnew key=<D-M-t>
-macm File.New\ Tab key=<D-S-t>
-nmap <D-t> :CommandT<CR>
+macmenu File.Open\ Tab\.\.\.<Tab>:tabnew key=<D-M-t>
+macmenu File.New\ Tab key=<D-S-t>
+macmenu File.Print key=<nop>
+nmap <D-t> :CtrlP<CR>
+nmap <D-p> :CtrlP<CR>
+nmap <D-P> :CtrlPMRU<CR>

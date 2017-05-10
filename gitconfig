@@ -61,6 +61,7 @@
     di = !git df --ignore-space-change
     ds = !git df --stat
     dsp = !git ds -p
+    dcf = !git diff --name-only
 
     ls = ls-files   # git ls: list files in this repo
     ign = ls-files -o -i --exclude-standard     # git ign: list ignored files
@@ -75,7 +76,7 @@
     outgoing = !git fetch && git log origin/master..
     in = !git incoming
     out = !git outgoing
-
+    ss = "!f() { git stash show -p stash@{$1} }"
 
     # Some aliases and tips from:
     # https://git.wiki.kernel.org/index.php/Aliases
@@ -205,3 +206,4 @@
   # Test with:
   #   git update-index --test-untracked-cache
   untrackedCache = true
+  pager = less -X -f

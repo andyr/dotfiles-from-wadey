@@ -548,7 +548,7 @@ endfunction
 "set textwidth=0             "When wrapping is off, break lines at 78 chars
 "set formatoptions=qrn1
 
-"color jellybeans
+color jellybeans
 
 "if exists("&colorcolumn")
 "    set colorcolumn=80

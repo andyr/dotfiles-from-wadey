@@ -1,3 +1,5 @@
+alias tmux="TERM=screen-256color-bce tmux"
+
 if [[ -o login && -d ~/.dotfiles/.git ]]; then
     autoload -U colors && colors
     echo -n " $fg[green]∵$fg_reset "

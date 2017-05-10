@@ -15,7 +15,7 @@ Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-rsi'
 
 Plugin 'tsaleh/vim-supertab'             " Do all your insert-mode completion with Tab.
-Plugin 'int3/vim-taglist-plus'           " Unmaintained -- You should probably use TagBar.
+"Plugin 'int3/vim-taglist-plus'           " Unmaintained -- You should probably use TagBar.
 Plugin 'mileszs/ack.vim'                 " Vim plugin for the Perl module / CLI script 'ack'
 Plugin 'scrooloose/syntastic'            " Syntax checking hacks for vim 
 Plugin 'rbgrouleff/bclose.vim'           " The BClose Vim plugin for deleting a buffer without closing the window
@@ -35,6 +35,10 @@ Plugin 'guicolorscheme.vim'
 Plugin 'wadey/taboo.vim'
 
 Plugin 'nanotech/jellybeans.vim'
+
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'joonty/vdebug.git'
+Plugin 'wincent/command-t'
 
 " Filetypes
 Plugin 'kchmck/vim-coffee-script'

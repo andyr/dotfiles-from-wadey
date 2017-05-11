@@ -20,6 +20,7 @@ filetype plugin indent on
 " lines, cols in status line
 set ruler
 set rulerformat=%=%h%m%r%w\ %(%c%V%),%l/%L\ %P
+set title
 
 " a - terse messages (like [+] instead of [Modified]
 " t - truncate file names
@@ -94,11 +95,14 @@ set omnifunc=syntaxcomplete#Complete
 " Note: smartindent is seriously outdated. cindent, even, is unnecessary.
 " Let the filetype plugins do the work.
 set tabstop=2
+set softtabstop=2
 set shiftwidth=2
 set expandtab
 "filetype indent on
 set autoindent
 set cindent
+
+set encoding=utf-8
 
 " show matching enclosing chars for .1 sec
 set showmatch
@@ -532,10 +536,10 @@ endfunction
 "vnoremap / /\v
 "nnoremap Y y$
 "nnoremap Q gq
-"set ignorecase              "ignore case in searches
-"set smartcase
-"set gdefault
-"set hlsearch                "highlight search items"
+set ignorecase              "ignore case in searches
+set smartcase
+set gdefault
+set hlsearch                "highlight search items"
 
 "set modeline                "read modeline from files"
 "set modelines=5             "look for modelines in first 5 lines"
@@ -548,7 +552,7 @@ endfunction
 "set textwidth=0             "When wrapping is off, break lines at 78 chars
 "set formatoptions=qrn1
 
-color jellybeans
+"color jellybeans
 
 "if exists("&colorcolumn")
 "    set colorcolumn=80

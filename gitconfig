@@ -144,10 +144,10 @@
 
 
     # just use gitg instead but leaving these jfs
-    ka = !gitk --all
-    kdo = !gitk --date-order
-    kado = !gitk --all --date-order
-    kasd = !gitk --all --simplify-by-decoration
+#    ka = !gitk --all
+#    kdo = !gitk --date-order
+#    kado = !gitk --all --date-order
+#    kasd = !gitk --all --simplify-by-decoration
 
     # Also see git-sh: http://rtomayko.github.com/git-sh/
     # combine shell aliases and use those to define workflows
@@ -159,7 +159,7 @@
   lg = log --decorate
   logs = log --stat --decorate
   logg = log --graph --decorate --branches --remotes
-  pop = stash pop
+#  pop = stash pop
   override = !sh -c 'echo git add -- $0 && echo git reset HEAD -q -- $0 && echo git checkout -- $0'
   wu = log --stat origin..@{0}
   unadd = rm --cached
@@ -175,28 +175,28 @@
 
   # git svn aliases
   #spull = !git svn fetch && git svn rebase -l
-  srebase = !git stash && git svn rebase -l && git stash pop
-  sdcommit = !git stash && git svn dcommit && git stash pop
+#  srebase = !git stash && git svn rebase -l && git stash pop
+#  sdcommit = !git stash && git svn dcommit && git stash pop
 
   # move the last commit to a new branch
   rebranch = !sh -c 'git branch $0 && git reset --hard HEAD^ && git checkout $0'
 
-  purge-remote = !sh -c 'echo git branch -a | echo sed -n \"/master$/d;s?^ *remotes/$0/??p\"'
+#  purge-remote = !sh -c 'echo git branch -a | echo sed -n \"/master$/d;s?^ *remotes/$0/??p\"'
   exec = "!exec "
   root = rev-parse --show-toplevel
 
   # diff-highlight
   diffh = !sh -c 'git diff --color | diff-highlight'
   diffhf = !sh -c 'git diff --color | diff-highlight | diff-so-fancy'
-[mergetool "mvimdiff"]
-  cmd = mvimdiff \"$LOCAL\" \"$REMOTE\" \"$MERGED\" \"$BASE\"
-[mergetool "p4merge"]
-  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-  trustExitCode = false
-[mergetool]
-  keepBackup = false
-[merge]
-  tool = p4merge
+#[mergetool "mvimdiff"]
+#  cmd = mvimdiff \"$LOCAL\" \"$REMOTE\" \"$MERGED\" \"$BASE\"
+#[mergetool "p4merge"]
+#  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+#  trustExitCode = false
+#[mergetool]
+#  keepBackup = false
+#[merge]
+#  tool = p4merge
 [push]
   default = current
 [core]

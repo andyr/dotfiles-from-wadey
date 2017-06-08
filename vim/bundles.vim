@@ -69,3 +69,7 @@ Plugin 'kylef/apiblueprint.vim'
 Plugin 'Shougo/vimproc.vim' " https://github.com/fatih/vim-go/pull/670
 Plugin 'jreybert/vimagit' " From a very single vim buffer, you can perform all basic git operations.
 Plugin 'vito-c/jq.vim' " Syntax highlighting for jq files in vim/neovim
+
+" Themes
+Plugin 'jacoborus/tender.vim' " https://github.com/jacoborus/tender.vim
+Plugin 'nanotech/jellybeans.vim'

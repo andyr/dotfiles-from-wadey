@@ -516,9 +516,9 @@ endfunction
 " === test some of this by hand ===
 "let mapleader = ","
 
-"source ~/.vim/vundle.vim
+source ~/.vim/vundle.vim
 
-"syntax enable               "syntax highlighting
+syntax enable               "syntax highlighting
 
 "set bg=dark                 "for dark background consoles
 
@@ -552,7 +552,7 @@ set hlsearch                "highlight search items"
 "set textwidth=0             "When wrapping is off, break lines at 78 chars
 "set formatoptions=qrn1
 
-"color jellybeans
+color jellybeans
 
 "if exists("&colorcolumn")
 "    set colorcolumn=80
@@ -696,7 +696,7 @@ set hlsearch                "highlight search items"
 "command! -range=% -nargs=* Json <line1>,<line2>!python -mjson.tool <args>
 
 " Support xterm mouse
-"set mouse=a
+set mouse=a
 
 " A motion for the current match.
 " Lets you do "ci/" to change the current match

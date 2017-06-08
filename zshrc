@@ -1,4 +1,4 @@
-alias tmux="TERM=screen-256color-bce tmux"
+#alias tmux="TERM=screen-256color-bce tmux"
 alias less="less -X -F"
 alias sha1sum="openssl dgst -sha1"
 alias md5sum="openssl dgst -md5"

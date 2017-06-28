@@ -72,4 +72,3 @@ Plugin 'vito-c/jq.vim' " Syntax highlighting for jq files in vim/neovim
 
 " Themes
 Plugin 'jacoborus/tender.vim' " https://github.com/jacoborus/tender.vim
-Plugin 'nanotech/jellybeans.vim'

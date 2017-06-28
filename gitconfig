@@ -206,4 +206,4 @@
   # Test with:
   #   git update-index --test-untracked-cache
   untrackedCache = true
-  pager = less -X -f
+  pager = less -X -F

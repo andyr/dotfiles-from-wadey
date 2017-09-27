@@ -460,7 +460,7 @@ nmap <Leader>oc :tabe %:h<CR>
 nmap H gT
 nmap L gt
 " move tab left or right
-nmap <C-l> :call MoveTab(0)<CR>
+nmap <C-l> :call MoveTab(1)<CR>
 nmap <C-h> :call MoveTab(-2)<CR>
 
 " gf should use new tab, not current buffer
